@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stored XSS Example</title>
+</head>
+
+<body>
+    <h1>Stored XSS Example</h1>
+
+    <form method="post" action="/stored">
+        <label for="user_input">Enter text:</label>
+        <input type="text" id="user_input" name="user_input">
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if stored_data_list %}
+    <p>Previous inputs:</p>
+    <ul>
+        {% for stored_data in stored_data_list %}
+        <li>{{ stored_data|safe }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <p>In a real application, proper input validation and sanitation should be implemented to prevent XSS attacks.</p>
+</body>
+
+</html>
